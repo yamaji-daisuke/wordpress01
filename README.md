@@ -1,22 +1,25 @@
 wordpress01 Cookbook
 ====================
-テスト中
+このクックブックを適用することで、以下の事が実現できます。
+
+- リポジトリから最新状態に更新
+- Nginx と php-fpm の導入と設定
+- MySQL の導入と設定
+- Wordpressの最新版の導入
+
+実行後に以下のURLをアクセスして、Wordpressのインストールを完了します。
+
+    http://IPアドレス/wordpress/
 
 
-TODO: Enter the cookbook description here.
-
-e.g.
-This cookbook makes your favorite breakfast sandwich.
-
-Requirements
+要件(Requirements)
 ------------
-TODO: List your cookbook requirements. Be sure to include any requirements this cookbook has on platforms, libraries, other cookbooks, packages, operating systems, etc.
 
-e.g.
-#### packages
-- `toaster` - wordpress01 needs toaster to brown your bagel.
+現在対応しているサーバーのOSは、Ubuntu 14.04 LTS 64bit です。
 
-Attributes
+
+
+属性(Attributes)
 ----------
 TODO: List your cookbook attributes here.
 
