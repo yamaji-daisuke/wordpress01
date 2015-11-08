@@ -31,18 +31,16 @@ execute 'nginx_sites-enabled_default_prep' do
   ignore_failure true
 end
 
-template "nginx_sites-enabled_default" do
-  path "/etc/nginx/sites-enabled/default"
-  source "nginx_conf_default.erb"
+cookbook_file "/etc/nginx/sites-enabled/wordpress.conf" do
+  source "wordpress.conf"
   owner "root"
   group "root"
   mode 0644
   notifies :restart, "service[nginx]"
 end
 
-template "php_test_page" do
-  path "/usr/share/nginx/html/info.php"
-  source "info.php.erb"
+cookbook_file "/usr/share/nginx/html/info.php" do
+  source "info.php"
   owner "root"
   group "root"
   mode 0644
@@ -54,8 +52,7 @@ mysql_hostname      = node["mysql"]["hostname"]
 mysql_user_name     = node["mysql"]["user"]["name"]
 mysql_user_password = node["mysql"]["user"]["password"]
 
-template "php5_ini" do
-  path "/etc/php5/fpm/php.ini"
+template "/etc/php5/fpm/php.ini" do
   source "php.ini.erb"
   owner "root"
   group "root"

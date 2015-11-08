@@ -60,38 +60,38 @@ execute "aa-enforce_usr.bin.mysqld" do
   action :nothing
 end
 
-template "/etc/apparmor.d/usr.sbin.mysqld" do
-  source "usr.sbin.mysqld.erb"
+cookbook_file "/etc/apparmor.d/usr.sbin.mysqld" do
+  source "usr.sbin.mysqld"
   owner "root"
   group "root"
   mode 0644
   notifies :run, "execute[aa-enforce_usr.bin.mysqld]"
 end
 
-template "/etc/mysql/my.cnf" do
-  source "my.cnf.erb"
+cookbook_file "/etc/mysql/my.cnf" do
+  source "my.cnf"
   owner "root"
   group "root"
   mode 0644
 end
 
 
-template "/etc/mysql/conf.d/character-set.cnf" do
-  source "character-set.cnf.erb"
+cookbook_file "/etc/mysql/conf.d/character-set.cnf" do
+  source "character-set.cnf"
   owner "root"
   group "root"
   mode 0644
 end
 
-template "/etc/mysql/conf.d/engine.cnf" do
-  source "engine.cnf.erb"
+cookbook_file "/etc/mysql/conf.d/engine.cnf" do
+  source "engine.cnf"
   owner "root"
   group "root"
   mode 0644
 end
 
-template "/etc/mysql/conf.d/mysqld_safe_syslog.cnf" do
-  source "mysqld_safe_syslog.cnf.erb"
+cookbook_file "/etc/mysql/conf.d/mysqld_safe_syslog.cnf" do
+  source "mysqld_safe_syslog.cnf"
   owner "root"
   group "root"
   mode 0644
