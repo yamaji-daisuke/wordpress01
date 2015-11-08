@@ -21,9 +21,10 @@ wordpress01 Cookbook
 
 属性(Attributes)
 ----------
-TODO: List your cookbook attributes here.
 
-e.g.
+このクックブックでパスワード等の部分は attiributes/default に分離してあります。
+もちろん、デフォルト値のままでも動作します。
+
 #### wordpress01::default
 <table>
   <tr>
@@ -33,20 +34,43 @@ e.g.
     <th>Default</th>
   </tr>
   <tr>
-    <td><tt>['wordpress01']['bacon']</tt></td>
-    <td>Boolean</td>
-    <td>whether to include bacon</td>
-    <td><tt>true</tt></td>
+    <td>["mysql"]["root_password"]</td>
+    <td>String</td>
+    <td>MySQL root パスワード</td>
+    <td>passw0rd</td>
+  </tr>
+  <tr>
+    <td>["mysql"]["db_name"]</td>
+    <td>String</td>
+    <td>Wordpress DB名</td>
+    <td>wordpress</td>
+  </tr>
+  <tr>
+    <td>["mysql"]["user"]["name"]</td>
+    <td>String</td>
+    <td>Wordpress DBユーザー名</td>
+    <td>wordpress</td>
+  </tr>
+  <tr>
+    <td>["mysql"]["user"]["password"]</td>
+    <td>String</td>
+    <td>Wordpress DBパスワード</td>
+    <td>wordpress</td>
+  </tr>
+  <tr>
+    <td>["mysql"]["hostname"]</td>
+    <td>String</td>
+    <td>MySQLのホスト名</td>
+    <td>localhost</td>
   </tr>
 </table>
+
 
 Usage
 -----
 #### wordpress01::default
-TODO: Write usage instructions for each cookbook.
 
-e.g.
-Just include `wordpress01` in your node's `run_list`:
+`run_list`にから実行する場合の記述例です。
 
 ```json
 {
@@ -55,6 +79,18 @@ Just include `wordpress01` in your node's `run_list`:
     "recipe[wordpress01]"
   ]
 }
+```
+
+
+#### プロビジョニング・スクリプト等からの実行
+
+スタンドアロンのCHEF環境で自サーバーに適用する場合、root ユーザーで以下のコマンドを実行することで、インストールとセットが完了します。
+
+```
+# curl -L https://www.opscode.com/chef/install.sh | bash
+# knife cookbook create dummy -o /var/chef/cookbooks
+# git -C /var/chef/cookbooks clone https://github.com/takara9/wordpress01
+# chef-solo -o wordpress01
 ```
 
 Contributing
@@ -71,4 +107,4 @@ e.g.
 
 License and Authors
 -------------------
-Authors: TODO: List authors
+Authors: Maho Takara 
