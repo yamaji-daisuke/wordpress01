@@ -16,11 +16,6 @@
   end
 end
 
-execute 'update-locale' do
-  command 'update-locale LANG="ja_JP.UTF-8" LANGUAGE="ja_JP:ja"'
-  ignore_failure true
-end
-
 service "mysql" do
   supports :status => true, :start => true, :stop => true, :restart => true
   action :nothing
