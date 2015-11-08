@@ -6,7 +6,6 @@
 #
 
 %w{
-  nmon
   nginx
   php5-fpm
   php5-memcached

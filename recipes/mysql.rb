@@ -8,9 +8,6 @@
 #
 
 %w{
-  nmon
-  language-pack-ja-base
-  language-pack-ja
   mysql-server
   apparmor-utils
 }.each do |pkgname|
