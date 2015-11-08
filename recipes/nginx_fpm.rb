@@ -1,6 +1,5 @@
-# -*- coding: utf-8 -*-
 #
-# Cookbook Name:: wordpress01
+# Cookbook Name:: webap01
 # Recipe:: default
 #
 # Copyright 2015, Maho Takara
@@ -12,7 +11,7 @@
   php5-fpm
   php5-memcached
   php5-mysqlnd-ms
-  mysql-server-5.5
+  mysql-client-5.6
 }.each do |pkgname|
   package "#{pkgname}" do
     action :install
@@ -26,6 +25,7 @@ end
 service "php5-fpm" do
   action [ :enable, :start]
 end
+
 
 execute 'nginx_sites-enabled_default_prep' do
   command 'rm -f /etc/nginx/sites-enabled/default'
@@ -47,6 +47,27 @@ template "php_test_page" do
   owner "root"
   group "root"
   mode 0644
+end
+
+
+# config mysql 
+mysql_hostname      = node["mysql"]["hostname"]
+mysql_user_name     = node["mysql"]["user"]["name"]
+mysql_user_password = node["mysql"]["user"]["password"]
+
+template "php5_ini" do
+  path "/etc/php5/fpm/php.ini"
+  source "php.ini.erb"
+  owner "root"
+  group "root"
+  mode 0644
+
+  variables({
+    :hostname => mysql_hostname,
+    :username => mysql_user_name,
+    :password => mysql_user_password,
+  })
+  notifies :restart, "service[php5-fpm]"
 end
 
 
