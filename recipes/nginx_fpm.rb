@@ -10,7 +10,7 @@
   php5-fpm
   php5-memcached
   php5-mysqlnd-ms
-  mysql-client-5.6
+  mysql-client
 }.each do |pkgname|
   package "#{pkgname}" do
     action :install
