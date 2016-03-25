@@ -1,0 +1,75 @@
+#
+# Cookbook Name:: mysql01
+# Recipe:: default
+#
+# Copyright 2015, YOUR_COMPANY_NAME
+#
+# All rights reserved - Do Not Redistribute
+#
+
+%w{
+  mariadb
+  mariadb-server
+}.each do |pkgname|
+  package "#{pkgname}" do
+    action :install
+  end
+end
+
+cookbook_file "/etc/my.cnf.d/server.cnf" do
+  source "my.cnf.d/server.cnf"
+  owner "root"
+  group "root"
+  mode 0644
+end
+
+service "mariadb" do
+  action [ :disable, :stop]
+end
+
+service "mariadb" do
+  action [ :enable, :start]
+end
+
+# create database
+root_password = node["mysql"]["root_password"]
+db_name = node["mysql"]["db_name"]
+execute "create_db" do
+  command "/usr/bin/mysql -u root < #{Chef::Config[:file_cache_path]}/create_db.sql"
+  action :nothing
+  not_if "/usr/bin/mysql -u root -D #{db_name}"
+end
+
+template "#{Chef::Config[:file_cache_path]}/create_db.sql" do
+  owner "root"
+  group "root"
+  mode 0644
+  source "create_db.sql.erb"
+  variables({
+    :db_name => db_name,
+  })
+  notifies :run, "execute[create_db]", :immediately
+end
+
+# create user
+user_name     = node["mysql"]["user"]["name"]
+user_password = node["mysql"]["user"]["password"]
+execute "create_user" do
+  command "/usr/bin/mysql -u root -p#{root_password} < #{Chef::Config[:file_cache_path]}/create_user.sql"
+  action :nothing
+  not_if "/usr/bin/mysql -u #{user_name} -p#{user_password} -D #{db_name}"
+end
+
+template "#{Chef::Config[:file_cache_path]}/create_user.sql" do
+  owner "root"
+  group "root"
+  mode 0644
+  source "create_user.sql.erb"
+  variables({
+    :db_name => db_name,
+    :username => user_name,
+    :password => user_password,
+  })
+  notifies :run, "execute[create_user]", :immediately
+end
+
