@@ -25,7 +25,6 @@ script "install_wordpress" do
   action :run
 end
 
-
 db_name       = node["mysql"]["db_name"]
 user_name     = node["mysql"]["user"]["name"]
 user_password = node["mysql"]["user"]["password"]

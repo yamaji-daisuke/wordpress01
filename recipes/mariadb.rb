@@ -24,11 +24,8 @@ cookbook_file "/etc/my.cnf.d/server.cnf" do
 end
 
 service "mariadb" do
-  action [ :disable, :stop]
-end
-
-service "mariadb" do
   action [ :enable, :start]
+  supports :start => true, :restart => true, :enable => true
 end
 
 # create database
@@ -55,7 +52,7 @@ end
 user_name     = node["mysql"]["user"]["name"]
 user_password = node["mysql"]["user"]["password"]
 execute "create_user" do
-  command "/usr/bin/mysql -u root -p#{root_password} < #{Chef::Config[:file_cache_path]}/create_user.sql"
+  command "/usr/bin/mysql -u root < #{Chef::Config[:file_cache_path]}/create_user.sql"
   action :nothing
   not_if "/usr/bin/mysql -u #{user_name} -p#{user_password} -D #{db_name}"
 end

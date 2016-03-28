@@ -18,15 +18,12 @@ end
 
 service "nginx" do
   action [ :enable, :start]
+  supports :start => true, :restart => true, :enable => true
 end
 
 service "php-fpm" do
   action [ :enable, :start]
-end
-
-execute 'nginx_sites-enabled_default_prep' do
-  command 'rm -f /etc/nginx/sites-enabled/default'
-  ignore_failure true
+  supports :start => true, :restart => true, :enable => true
 end
 
 cookbook_file "/etc/nginx/conf.d/wordpress.conf" do

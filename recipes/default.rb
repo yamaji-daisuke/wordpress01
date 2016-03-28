@@ -10,7 +10,7 @@
 include_recipe "wordpress01::nginx_fpm"
 #include_recipe "wordpress01::mysql"
 include_recipe "wordpress01::mariadb"
-include_recipe "wordpress01::wordpress"
+#include_recipe "wordpress01::wordpress"
 
 
 
